@@ -706,7 +706,10 @@ def _field_for_generic_type(
             )
             return tuple_type(children, **metadata)
         elif origin in (dict, Dict, collections.abc.Mapping, Mapping):
-            dict_type = type_mapping.get(Dict, marshmallow.fields.Dict)
+            dict_type = cast(
+                Type[marshmallow.fields.Mapping],
+                type_mapping.get(Dict, marshmallow.fields.Dict),
+            )
             return dict_type(
                 keys=_field_for_schema(arguments[0], base_schema=base_schema),
                 values=_field_for_schema(arguments[1], base_schema=base_schema),
