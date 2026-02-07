@@ -188,7 +188,7 @@ class TestSetField(unittest.TestCase):
 
         with self.assertRaises(TypeError) as err_info:
             schema.load({"value": {set()}})
-        self.assertEqual(str(err_info.exception), "unhashable type: 'set'")
+        self.assertIn("unhashable type: 'set'", str(err_info.exception))
 
         @dataclass()
         class Elm:
@@ -202,7 +202,7 @@ class TestSetField(unittest.TestCase):
 
         with self.assertRaises(TypeError) as err_info:
             schema.load({"value": {{"value": {set()}}}})
-        self.assertEqual(str(err_info.exception), "unhashable type: 'set'")
+        self.assertIn("unhashable type: 'set'", str(err_info.exception))
 
     def test_set_of_frozen_dataclass(self):
         @dataclass(frozen=True)
